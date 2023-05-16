@@ -1,0 +1,40 @@
+:root {
+    --gray: #E0E0E0;
+    --dark-blue: #1D3461;
+    --blue: #1F487E;
+    --white: #F5F5F5;
+    --spacing: 20px;
+    --heading-size: 32px;
+    --text-size: 18px;
+    --important-text-size: 20px
+}
+
+* {
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, serif;
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+}
+
+.btn {
+    border-width: 0;
+}
+
+.btn-blue {
+    padding: calc(var(--spacing) / 2);
+    color: var(--white);
+    background-color: var(--blue) !important;
+    border-radius: var(--spacing);
+
+}
+
+.btn-gray {
+    padding: var(--spacing);
+    background-color: var(--gray);
+}
+
