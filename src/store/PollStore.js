@@ -1,36 +1,26 @@
 import PollApi from "@/api/PollApi";
-import AuthStore from "@/store/AuthStore";
 import {ref} from "vue";
 
-const PollQuestion = ref([]);
-const PollAnswer = ref([]);
+const polls = ref([]);
 
-const AddPoll = (PollQuestion, IsMultiple, HasOther, Answer) => {
-    return PollApi.AddPoll(PollQuestion, IsMultiple, HasOther, AuthStore.UserId.value, Answer)
+const add = async (question, type, answers) => {
+    return PollApi.add(question, type, answers);
 }
 
-const GetPoll = () => {
-    return PollApi.GetPoll()
-        .then(res => {
-            PollQuestion.value = res.data;
-        });
+const fetch = async () => {
+    return PollApi.get()
+        .then(res => polls.value = res);
 }
 
-const GetAnswer = () => {
-    return PollApi.GetAnswer()
-        .then(res => {
-            PollAnswer.value = res.data;
-        })
+const deletePolls = (id) => {
+    return PollApi.deletePolls(id);
 }
 
-const DeleteAnswer = (id, type)=>{
-    return PollApi.DeleteAnswer(id, type)
-        .then(() => GetAnswer());
-}
+const PollStore = {
+    add,
+    fetch,
+    delete: deletePolls,
+    polls
+};
 
-const GetAnswerToPoll=(IDPoll)=>{
-    return PollApi.GetAnswerToPoll(IDPoll);
-}
-
-const PollStore = {AddPoll, GetPoll, PollQuestion, GetAnswer, PollAnswer,DeleteAnswer,GetAnswerToPoll};
 export default PollStore;

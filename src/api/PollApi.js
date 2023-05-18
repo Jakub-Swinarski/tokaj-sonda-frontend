@@ -1,42 +1,30 @@
 import api from "@/api/api";
 
-const AddPoll = (PollQuestion, IsMultiple, HasOther, Creator, Answer) => {
-    return api.post("/add-poll", {
-        PollName: PollQuestion,
-        IsMultiple,
-        HasOther,
-        Creator,
-        Answer
+const add = (question, type, answers) => {
+    return api.post("/polls", {
+        question,
+        type,
+        answers
     });
 }
-const GetPoll = () => {
-    return api.get('/get-polls');
+const get = () => {
+    return api.get('/polls');
 }
-const GetAnswer = () => {
-    return api.get('/get-answers');
+const edit = (id, question, type) => {
+    return api.put('/polls', {
+        id,
+        question,
+        type
+    });
 }
-const DeleteAnswer = (id, type) => {
-    if (type === 'normal') {
-        return api.delete('/delete-answer', {
-            data: {
-                IDAnswer: id
-            }
-        });
-    } else {
-        return api.delete('/delete-answer-other', {
-            data: {
-                IDAnswer: id
-            }
-        });
-    }
-}
-const GetAnswerToPoll = (IDPoll) => {
-    return api.get('/get-answers-to-poll',{
-        params:{
-            IDPoll
+const deletePolls = (id) => {
+    return api.delete('/polls', {
+        data: {
+            id
         }
-    })
+    });
 }
-const PollApi = {AddPoll, GetPoll, GetAnswer, DeleteAnswer,GetAnswerToPoll}
+
+const PollApi = {add, get, edit, deletePolls}
 
 export default PollApi;

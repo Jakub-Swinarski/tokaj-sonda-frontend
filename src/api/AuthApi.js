@@ -1,35 +1,36 @@
 import api from "@/api/api";
 
-const GetUser = () => {
-    return api.get("/user")
+const get = () => {
+    return api.get("/auth/user")
+        .then(res => res.data)
 }
 
-const Register = (Email, Password, Login, RepeatPassword) => {
-    return api.post("/register", {
-        Email,
-        Password,
-        Login,
-        RepeatPassword
-    })
+const register = (password, username, repeatPassword) => {
+    return api.post("/auth/register", {
+        username,
+        password,
+        repeatPassword
+    }).then(res => res.data)
 }
 
-const Login = (Email, Password) => {
-    return api.post("/login", {
-        Email,
-        Password
-    });
+const login = (username, password) => {
+    return api.post("/auth/login", {
+        username,
+        password
+    }).then(res => res.data);
 }
-const Logout = () => {
-    return api.post("/logout");
+const logout = () => {
+    return api.post("/auth/logout")
+        .then(res => res.data);
 }
-const DeleteUser = ( Password) => {
-    return api.delete('/delete-user', {
-        data:{
-            Password
+const deleteUser = (password) => {
+    return api.delete('/auth/user', {
+        data: {
+            password
         }
     });
 }
 
-const AuthApi = {GetUser, Register, Logout, Login, DeleteUser};
+const AuthApi = {get, register, logout, login, deleteUser};
 
 export default AuthApi;

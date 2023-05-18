@@ -1,57 +1,65 @@
 import {ref} from "vue";
 import AuthApi from "@/api/AuthApi";
 
-const UserId = ref();
-const UserName = ref();
+const user = ref();
 
-const Token = ref();
+const userId = computed(() => {
+    return (user.value !== undefined) ? user.value.id : undefined;
+});
 
-if (localStorage.getItem("Token") !== null) {
-    Token.value = localStorage.getItem("Token");
+const username = computed(() => {
+    return (user.value !== undefined) ? user.value.username : undefined
+});
+
+const token = ref();
+
+const tokenGetter = computed(() => token.value);
+
+if (localStorage.getItem("token") !== null) {
+    token.value = localStorage.getItem("token");
 }
 
-const Login = (Email, Password) => {
-    return AuthApi.Login(Email, Password)
+const login = (username, password) => {
+    return AuthApi.login(username, password)
         .then(res => {
-            Token.value = res.data.Token;
-            localStorage.setItem("Token", res.data.Token);
-            UserId.value = res.data.User.IDUser;
-            UserName.value = res.data.User.Login;
+            token.value = res.token;
+            localStorage.setItem("token", res.token);
+            user.value = res.user;
         });
 }
 
-const FetchUser = () => {
-    return AuthApi.GetUser()
+const fetchUser = () => {
+    return AuthApi.get()
         .then(res => {
-            UserId.value = res.data.IDUser;
-            UserName.value = res.data.Login;
+            userId.value = res.id;
+            username.value = res.username;
         })
 }
 
-const Register = (Login, Email, Password, RepeatPassword) => {
-    return AuthApi.Register(Email, Password, Login, RepeatPassword)
+const register = (username, password, repeatPassword) => {
+    return AuthApi.register(username, password, repeatPassword)
         .then(res => {
-            UserId.value = res.data.IDUser;
-            UserName.value = res.data.Login;
+            userId.value = res.id;
+            username.value = res.username;
         })
 }
 
-const Logout = () => {
-    return AuthApi.Logout()
+const logout = () => {
+    return AuthApi.logout()
         .then(res => {
-            UserId.value = res.data.IDUser;
-            UserName.value = res.data.Login;
-            localStorage.removeItem("Token");
+            userId.value = res.id;
+            username.value = res.username;
+            localStorage.removeItem("token");
         })
 }
-const DeleteUser =(Password)=>{
-    return AuthApi.DeleteUser(Password.value)
-        .then(res=>{
-            UserName.value = res.data.Login;
-            localStorage.removeItem("Token");
+const deleteUser = (password) => {
+    return AuthApi.deleteUser(password.value)
+        .then(res => {
+            username.value = res.username;
+            localStorage.removeItem("token");
         })
 }
 
-const AuthStore = {UserId, UserName, Login, FetchUser, Register, Logout, Token,DeleteUser};
+const AuthStore = {userId, username, login, fetchUser, register, logout, token: tokenGetter, deleteUser};
 
 export default AuthStore;

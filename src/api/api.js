@@ -6,8 +6,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(config => {
-    if (AuthStore.Token.value !== undefined) {
-        config.headers.Authorization ="Bearer " + AuthStore.Token.value;
+    if (AuthStore.token.value !== undefined) {
+        config.headers.Authorization = "Bearer " + AuthStore.token.value;
     }
 
     return config;
