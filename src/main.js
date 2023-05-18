@@ -10,7 +10,7 @@ import YourPollsSide from "@/components/YourPollsSide.vue";
 import AuthStore from "@/store/AuthStore";
 import RegisterSide from  "@/components/RegisterSide.vue";
 
-AuthStore.FetchUser()
+AuthStore.fetchUser()
     .finally(() => {
         const routes = [
             {path: '/login', component: LoginPanel},

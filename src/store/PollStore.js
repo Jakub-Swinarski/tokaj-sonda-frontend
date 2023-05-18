@@ -1,7 +1,13 @@
 import PollApi from "@/api/PollApi";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const polls = ref([]);
+const question = computed(()=>{
+    if(polls.value !== undefined){
+        return polls.value.question;
+    }
+    else return undefined;
+})
 
 const add = async (question, type, answers) => {
     return PollApi.add(question, type, answers);
@@ -20,7 +26,8 @@ const PollStore = {
     add,
     fetch,
     delete: deletePolls,
-    polls
+    polls,
+    question
 };
 
 export default PollStore;

@@ -3,16 +3,16 @@ import {ref} from "vue";
 import AuthStore from "@/store/AuthStore";
 
 const Delete = ref(0);
-const Password = ref()
-const ErrorMessage =ref()
+const password = ref()
+const errorMessage =ref()
 
 const DeleteUser =()=>{
 
-        AuthStore.DeleteUser(Password)
+        AuthStore.deleteUser(password)
             .then(()=>{
                 Delete.value=0;
             }).catch((error) => {
-                ErrorMessage.value = error.response.data.message;
+                errorMessage.value = error.response.data.message;
             });
 
 
@@ -26,8 +26,8 @@ const DeleteUser =()=>{
     </div>
     <div class="delete-wrapper" v-if="Delete === 1">
         <p class="text">Aby usunąć konto podaj hasło.</p>
-        <p>{{ErrorMessage}}</p>
-        <input type="password" name="password" v-model="Password" id="password" placeholder="Hasło">
+        <p>{{errorMessage}}</p>
+        <input type="password" name="password" v-model="password" id="password" placeholder="Hasło">
         <div class="button-wrapper">
             <button class="confirm btn btn-blue" @click="DeleteUser">Potwierdzam</button>
             <button class="cancel btn btn-blue" @click="Delete = 0">Anuluj</button>

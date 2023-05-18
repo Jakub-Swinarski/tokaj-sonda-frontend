@@ -31,31 +31,28 @@ const login = (username, password) => {
 const fetchUser = () => {
     return AuthApi.get()
         .then(res => {
-            userId.value = res.id;
-            username.value = res.username;
+            user.value = res.user;
         })
 }
 
 const register = (username, password, repeatPassword) => {
     return AuthApi.register(username, password, repeatPassword)
         .then(res => {
-            userId.value = res.id;
-            username.value = res.username;
+            user.value = res.user;
         })
 }
 
 const logout = () => {
     return AuthApi.logout()
         .then(res => {
-            userId.value = res.id;
-            username.value = res.username;
+            user.value = res.user;
             localStorage.removeItem("token");
         })
 }
 const deleteUser = (password) => {
     return AuthApi.deleteUser(password.value)
         .then(res => {
-            username.value = res.username;
+            user.value = res.user;
             localStorage.removeItem("token");
         })
 }

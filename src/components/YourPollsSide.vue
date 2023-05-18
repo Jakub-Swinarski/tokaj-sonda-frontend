@@ -1,14 +1,14 @@
 <script setup>
-import PollStore from "@/store/PollStore";
+import SubmittedAnswerStore from "@/store/SubmittedAnswerStore";
 
-PollStore.GetPoll()
+SubmittedAnswerStore.fetch()
 </script>
 <template>
-    <div class="poll" v-for="(value, index) of PollStore.PollQuestion.value" :key="index">
+    <div class="poll" v-for="(value, index) of SubmittedAnswerStore.SubmittedAnswers.value" :key="index">
         <h2>{{ value }}</h2>
         <div class="buttons">
-            <button class="delete btn btn-blue" >Usuń</button>
-            <button class="edit btn btn-blue" >Edytuj</button>
+            <button class="delete btn btn-blue">Usuń</button>
+            <button class="edit btn btn-blue">Edytuj</button>
         </div>
     </div>
 </template>

@@ -3,8 +3,8 @@
         <div class="gray-panel">
             <h1 class="heading">LOGOWANIE</h1>
             <div class="alert">{{ alertMessage }}</div>
-            <p class="login">EMAIL</p>
-            <input type="text" v-model="email" name="login" id="login">
+            <p class="login">Username</p>
+            <input type="text" v-model="username" name="login" id="login">
             <p class="password">HASŁO</p>
             <input type="password" v-model="password" name="password" id="password">
             <div>
@@ -19,15 +19,14 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import AuthStore from "@/store/AuthStore";
 
-const email = ref();
+const username = ref();
 const password = ref();
 const alertMessage = ref();
 
 const router = useRouter();
-const logged = (IdLogin) => {
-    AuthStore.Login(email.value, password.value)
+const logged = () => {
+    AuthStore.login(username.value, password.value)
         .then(() => {
-            const id = IdLogin.id;
             router.push("/");
         }).catch((error) => {
             alertMessage.value = error.response.data.message;

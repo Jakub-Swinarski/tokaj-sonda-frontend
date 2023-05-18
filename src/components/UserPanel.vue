@@ -16,11 +16,10 @@ function click() {
         IsVisible = 0;
     }
 }
-const logout =(IdLogin)=>{
-    AuthStore.Logout()
+const logout =()=>{
+    AuthStore.logout()
         .then(()=>{
                 router.push("/");
-                const id = IdLogin.id;
             }
         )
 }
@@ -31,11 +30,11 @@ const logout =(IdLogin)=>{
 <template>
     <div class="main-wrapper">
         <div class="user-wrapper">
-            <h2 class="user-name" id="user">{{AuthStore.UserName.value}}</h2>
+            <h2 class="user-name" id="user">{{AuthStore.username.value}}</h2>
             <img src="@/assets/arrow-down.svg" alt="aaa" @click="click()">
         </div>
         <div class="menu-wrapper">
-            <div class="mobile-user-name"><h2 id="user">{{AuthStore.UserName.value}}</h2></div>
+            <div class="mobile-user-name"><h2 id="user">{{AuthStore.username.value}}</h2></div>
             <button class="btn btn-gray" @click="router.push('/options')">Opcje użytkownika</button>
             <button class="btn btn-gray" @click="router.push('/your-polls');">Twoje sondy</button>
             <button class="btn btn-gray" @click="router.push('/your-answers');">Twoje odpowiedzi</button>

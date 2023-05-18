@@ -4,9 +4,7 @@
             <h1 class="heading">Rejestracja</h1>
             <div class="alert">{{ alertMessage }}</div>
             <p class="login">NAZWA UŻYTKOWNIKA</p>
-            <input type="text" v-model="login" name="login" id="login">
-            <p class="login">EMAIL</p>
-            <input type="text" v-model="email" name="email" id="email">
+            <input type="text" v-model="username" name="login" id="login">
             <p class="password">HASŁO</p>
             <input type="password" v-model="password" name="password" id="password">
             <p class="repeat-password">POWTÓRZ HASŁO</p>
@@ -26,16 +24,14 @@ import {useRouter} from "vue-router";
 
 const router = useRouter();
 
-const login = ref();
-const email = ref();
+const username = ref();
 const password = ref();
 const repeatPassword = ref();
 const alertMessage = ref();
 
-const register = (IdLogin) => {
-    AuthStore.Register(login.value, email.value, password.value, repeatPassword.value)
+const register = () => {
+    AuthStore.register(username.value, password.value, repeatPassword.value)
         .then(() => {
-            const id = IdLogin.id;
             router.push("/");
         }).catch((error) => {
             alertMessage.value = error.response.data.message;

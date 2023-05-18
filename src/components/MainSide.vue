@@ -30,7 +30,7 @@ setPlaceholder();
                 <input type="text" name="search-poll" id="search-poll" :placeholder="InputPlaceholder" v-if="IsVisible">
 
             </div>
-            <LoginButton v-if="AuthStore.UserId.value === undefined"></LoginButton>
+            <LoginButton v-if="AuthStore.userId.value === undefined"></LoginButton>
             <UserPanel v-else></UserPanel>
 
 

@@ -67,9 +67,7 @@ const EditAnswer = (answer) => {
 }
 
 
-const AcceptAnswer = (IDPossibleAnswer) => {
 
-}
 
 FetchAnswers();
 </script>

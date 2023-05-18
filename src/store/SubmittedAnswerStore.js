@@ -1,7 +1,12 @@
-import SubmittedAnswersApi from "@/api/SubmittedAnswerApi";
-
+import SubmittedAnswerApi from "@/api/SubmittedAnswerApi";
+import {ref} from "vue";
+ const SubmittedAnswers = ref([]);
 const fetch = ()=>{
-    return SubmittedAnswersApi.get();
+    return SubmittedAnswerApi.get()
+        .then(res=>{
+            SubmittedAnswers.value = res;
+
+        });
 }
-const SubmittedAnswerStore ={fetch}
+const SubmittedAnswerStore ={fetch, SubmittedAnswers}
 export default SubmittedAnswerStore;
