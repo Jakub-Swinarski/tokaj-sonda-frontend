@@ -28,7 +28,7 @@ const deleteUser = (password) => {
         data: {
             password
         }
-    });
+    }).then(res => res.data);
 }
 
 const AuthApi = {get, register, logout, login, deleteUser};
