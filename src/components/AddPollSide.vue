@@ -25,7 +25,15 @@ const SendPoll = ()=>{
     PollStore.add(
         question.value,
         type.value,
-        items.value
+        items.value.map((element)=>{
+            if (element.type === "STRICT"){
+                return element;
+            } else {
+                return {type: 'OTHER'}
+            }
+
+            }
+        )
     );
 }
 
@@ -39,11 +47,11 @@ const SendPoll = ()=>{
         <div class="radio-wrapper">
             <h2 class="type-of-choosing">Rodzaj wyboru</h2>
             <div>
-                <input type="radio" name="choice" id="single-choice" @input="type" value="SINGLE_CHOOSE">
+                <input type="radio" name="choice" id="single-choice" v-model="type" value="SINGLE_CHOOSE">
                 <label for="single-choice">Jednokrotny</label>
             </div>
             <div>
-                <input type="radio" name="choice" id="multiple-choice" @input="type" value="MULTI_CHOOSE">
+                <input type="radio" name="choice" id="multiple-choice" v-model="type" value="MULTI_CHOOSE">
                 <label for="multiple-choice">Wielokrotny</label>
             </div>
 

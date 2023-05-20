@@ -1,6 +1,7 @@
 <script setup>
 import PollStore from "@/store/PollStore";
 import {computed, ref} from "vue";
+import AnswerStore from "@/store/AnswerStore";
 
 const PollAnswer = computed(() => {
     return PollStore.PollAnswer.value.map(Obj => {
@@ -28,12 +29,12 @@ const PollAnswer = computed(() => {
     });
 })
 
-const FetchAnswers = () => PollStore.GetAnswer();
+const FetchAnswers = () => AnswerStore.fetch();
 
 const Delete = ref();
 const ErrorMessage = ref();
 const DeleteAnswer = (id, type) => {
-    PollStore.DeleteAnswer(id, type)
+    AnswerStore.delete(id, type)
         .then(() => {
             Delete.value = 0;
             FetchAnswers();
