@@ -78,11 +78,11 @@ FetchAnswers();
             <div class="edit" v-if="NowEditing === `${value.pollId}-${value.answer}` && NowEditingAnswers !== undefined">
                 <p>Edytujesz odpowiedź {{ value.question }}</p>
                 <div v-for="(value, index) of NowEditingAnswers" :key="index">
-                    <input type="radio" :value="value.Answer" name="possibleAnswer"
+                    <input type="radio" :value="value.answer" name="possibleAnswer"
                            :id="`possibleAnswer-index-${index}`" v-model="NowEditingValue">
-                    <label :for="`possibleAnswer-index-${index}`">{{ value.Answer }}</label>
+                    <label :for="`possibleAnswer-index-${index}`">{{ value.answer }}</label>
                 </div>
-                <input type="radio" name="possibleAnswer" id="possibleAnswer" :value="answer.Type"
+                <input type="radio" name="possibleAnswer" id="possibleAnswer" :value="answer.type"
                        v-model="NowEditingValue">
                 <label for="possibleAnswer">
                     <input type="text" name="possibleAnswer" placeholder="inna odpowiedź"

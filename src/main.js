@@ -9,6 +9,7 @@ import AddPollSide from "@/components/AddPollSide.vue";
 import YourPollsSide from "@/components/YourPollsSide.vue";
 import AuthStore from "@/store/AuthStore";
 import RegisterSide from  "@/components/RegisterSide.vue";
+import AllPolsPanel from "@/components/AllPolsPanel.vue";
 
 AuthStore.fetchUser()
     .finally(() => {
@@ -18,7 +19,8 @@ AuthStore.fetchUser()
             {path: '/your-answers', component: YourAnswersSide},
             {path: '/add-poll', component: AddPollSide},
             {path: '/your-polls', component: YourPollsSide},
-            {path: '/register', component: RegisterSide}
+            {path: '/register', component: RegisterSide},
+            {path: '/',component: AllPolsPanel}
         ]
 
         const router = VueRouter.createRouter({

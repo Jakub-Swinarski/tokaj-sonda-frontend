@@ -10,15 +10,15 @@ const add = (question, type, answers) => {
 const get = () => {
     return api.get('/polls');
 }
+const getAll = () => {
+    return api.get('/polls/polls');
+}
 const edit = (id, question, type) => {
     return api.put('/polls', {
         id,
         question,
         type
     });
-}
-const allPolls = () =>{
-    return api.get('/polls/all')
 }
 const deletePolls = (id) => {
     return api.delete('/polls', {
@@ -28,6 +28,6 @@ const deletePolls = (id) => {
     });
 }
 
-const PollApi = {add, get, edit, deletePolls, allPolls}
+const PollApi = {add, get, edit, deletePolls, getAll}
 
 export default PollApi;

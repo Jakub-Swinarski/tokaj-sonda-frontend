@@ -2,14 +2,15 @@ import api from "@/api/api";
 
 const get = (pollId) => {
     return api.get('/answers', {
-        data: {
+        params: {
             pollId
         }
     }).then(res => res.data);
 }
 const getPossible = (pollId) => {
+    console.log(pollId)
     return api.get('/answers/possible', {
-        data: {
+        params: {
             pollId
         }
     }).then(res => res.data);
