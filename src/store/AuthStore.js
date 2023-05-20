@@ -1,15 +1,18 @@
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import AuthApi from "@/api/AuthApi";
 
 const user = ref();
 
-const userId = computed(() => {
-    return (user.value !== undefined) ? user.value.id : undefined;
-});
+const userId = ref();
+const username = ref();
 
-const username = computed(() => {
-    return (user.value !== undefined) ? user.value.username : undefined
-});
+watch(user, (val) => {
+    console.log(val);
+    if (val !== undefined) {
+        userId.value = val.id;
+        username.value = val.username;
+    }   
+}, { deep: true });
 
 const token = ref();
 
@@ -31,14 +34,14 @@ const login = (username, password) => {
 const fetchUser = () => {
     return AuthApi.get()
         .then(res => {
-            user.value = res.user;
+            user.value = res;
         })
 }
 
 const register = (username, password, repeatPassword) => {
     return AuthApi.register(username, password, repeatPassword)
         .then(res => {
-            user.value = res.user;
+            user.value = res;
         })
 }
 
