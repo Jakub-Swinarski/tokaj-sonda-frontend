@@ -1,40 +1,27 @@
 <script setup>
-import PollStore from "@/store/PollStore";
+
 import {computed, ref} from "vue";
 import AnswerStore from "@/store/AnswerStore";
 
-const PollAnswer = computed(() => {
-    return PollStore.PollAnswer.value.map(Obj => {
-        const result = [];
 
-        if (Obj.Answer !== undefined) {
-            result.push({
-                ID: Obj.IDPossibleAnswer,
-                Value: Obj.Answer,
-                Type: "normal",
-                Poll: Obj.Poll,
-                IDPoll: Obj.IDPoll
-            })
-        }
-        if (Obj.AnswerText !== undefined) {
-            result.push({
-                ID: Obj.IDAnswer,
-                Value: Obj.AnswerText,
-                Type: "other",
-                Poll: Obj.Poll,
-                IDPoll: Obj.IDPoll
-            });
-        }
-        return result;
-    });
-})
+const PollAnswer = ref([]);
+
+AnswerStore.fetch()
+    .then((res) => res.map((element) => {
+        if (element.strict !== null) {
+            element.answer = element.strict;
+        } else element.answer = element.other;
+        return element;
+    }))
+    .then(res => PollAnswer.value = res)
 
 const FetchAnswers = () => AnswerStore.fetch();
 
 const Delete = ref();
+Delete.value = 0;
 const ErrorMessage = ref();
-const DeleteAnswer = (id, type) => {
-    AnswerStore.delete(id, type)
+const DeleteAnswer = (id) => {
+    AnswerStore.delete(id)
         .then(() => {
             Delete.value = 0;
             FetchAnswers();
@@ -45,60 +32,61 @@ const DeleteAnswer = (id, type) => {
 }
 
 const NowEditing = ref();
-const NowEditingAnswers = ref();
+const NowEditingAnswers = ref([]);
 const NowEditingValue = ref(); // sztywna albo 'other'
 const NowEditingOtherValue = ref(); // wartość opcji inne
 
 const EditAnswer = (answer) => {
     NowEditing.value = ``;
-    PollStore.GetAnswerToPoll(answer.IDPoll)
+    console.log(answer.pollId);
+    AnswerStore.fetchPossible(answer.pollId)
         .then(res => {
-            NowEditingAnswers.value = res.data;
+            NowEditingAnswers.value = res;
 
-            if (answer.Type === "other") {
-                NowEditingValue.value = "other";
-                NowEditingOtherValue.value = answer.Value;
+            if (answer.Type === "OTHER") {
+                NowEditingValue.value = "OTHER";
+                NowEditingOtherValue.value = answer.value;
             } else {
-                NowEditingValue.value = answer.Value;
+                NowEditingValue.value = answer.value;
                 NowEditingOtherValue.value = undefined;
             }
 
-            NowEditing.value = answer.ID + '-' + answer.Type;
+            NowEditing.value = answer.pollId + '-' + answer.answer;
         });
 }
-
-
 
 
 FetchAnswers();
 </script>
 <template>
-    <div class="poll" v-for="(value, index) of PollAnswer" :key="index">
-        <div class="poll" v-for="answer of value">
-            <h1>{{ answer.Poll }}</h1>
-            <h2>{{ answer.Value }}</h2>
+    <div class="poll">
+        <div class="poll" v-for="(value, index) of PollAnswer" :key="index">
+            <h1>{{ value.question }}</h1>
+            <h2>{{ value.answer }}</h2>
             <div class="buttons">
-                <button class="btn btn-blue" @click="Delete = `${answer.ID}-${answer.Type}`">Usuń</button>
-                <button class="btn btn-blue" @click="EditAnswer(answer)">Edytuj
-                </button>
+                <button class="btn btn-blue" @click="Delete = `${value.pollId}-${value.answer}`">Usuń</button>
+                <button class="btn btn-blue" @click="EditAnswer(value)">Edytuj</button>
             </div>
-            <div class="delete" v-if="Delete === `${answer.ID}-${answer.Type}`">
-                <p class="text">Czy na pewno chcesz usunąć odpowiedź {{ answer.Value }}</p>
+            <div class="delete" v-if="Delete === `${value.pollId}-${value.answer}`">
+                <p class="text">Czy na pewno chcesz usunąć odpowiedź {{ value.answer }}</p>
                 <p>{{ ErrorMessage }}</p>
                 <div class="button-wrapper">
-                    <button class="confirm btn btn-blue" @click="DeleteAnswer(answer.ID, answer.Type)">Tak</button>
+                    <button class="confirm btn btn-blue" @click="DeleteAnswer(value.pollId)">Tak</button>
                     <button class="cancel btn btn-blue" @click="Delete = 0">Nie</button>
                 </div>
             </div>
-            <div class="edit" v-if="NowEditing === `${answer.ID}-${answer.Type}` && NowEditingAnswers !== undefined">
-                <p>Edytujesz odpowiedź {{ answer.Value }}</p>
+            <div class="edit" v-if="NowEditing === `${value.pollId}-${value.answer}` && NowEditingAnswers !== undefined">
+                <p>Edytujesz odpowiedź {{ value.question }}</p>
                 <div v-for="(value, index) of NowEditingAnswers" :key="index">
-                    <input type="radio" :value="value.Answer" name="possibleAnswer" :id="`possibleAnswer-index-${index}`" v-model="NowEditingValue">
-                    <label :for="`possibleAnswer-index-${index}`" >{{ value.Answer }}</label>
+                    <input type="radio" :value="value.Answer" name="possibleAnswer"
+                           :id="`possibleAnswer-index-${index}`" v-model="NowEditingValue">
+                    <label :for="`possibleAnswer-index-${index}`">{{ value.Answer }}</label>
                 </div>
-                <input type="radio" name="possibleAnswer" id="possibleAnswer" :value="answer.Type" v-model="NowEditingValue">
+                <input type="radio" name="possibleAnswer" id="possibleAnswer" :value="answer.Type"
+                       v-model="NowEditingValue">
                 <label for="possibleAnswer">
-                    <input type="text" name="possibleAnswer" placeholder="inna odpowiedź" v-model="NowEditingOtherValue" />
+                    <input type="text" name="possibleAnswer" placeholder="inna odpowiedź"
+                           v-model="NowEditingOtherValue"/>
                 </label>
                 <div class="button-wrapper">
                     <button class="confirm btn btn-blue" @click="AcceptAnswer(value.IDPossibleAnswer)">Tak</button>
@@ -108,8 +96,8 @@ FetchAnswers();
         </div>
     </div>
 </template>
-
 <style scoped>
+
 .poll {
     gap: var(--spacing);
     display: flex;

@@ -5,7 +5,6 @@ const fetch = ()=>{
     return SubmittedAnswerApi.get()
         .then(res=>{
             SubmittedAnswers.value = res;
-
         });
 }
 const SubmittedAnswerStore ={fetch, SubmittedAnswers}

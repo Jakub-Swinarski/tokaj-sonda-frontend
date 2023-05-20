@@ -7,6 +7,13 @@ const get = (pollId) => {
         }
     }).then(res => res.data);
 }
+const getPossible = (pollId) => {
+    return api.get('/answers/possible', {
+        data: {
+            pollId
+        }
+    }).then(res => res.data);
+}
 const edit = (userId, pollId, answers) => {
     return api.put('/answers', {
         userId,
@@ -21,5 +28,10 @@ const deleteAnswer = (id) => {
         }
     }).then(res => res.data);
 }
-const AnswerApi = {get, edit, deleteAnswer};
+const AnswerApi = {
+    get,
+    edit,
+    deleteAnswer,
+    getPossible
+};
 export default AnswerApi;

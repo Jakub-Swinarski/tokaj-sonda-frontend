@@ -15,7 +15,7 @@ const add = async (question, type, answers) => {
 
 const fetch = async () => {
     return PollApi.get()
-        .then(res => polls.value = res);
+        .then(res => polls.value = res.data);
 }
 
 const deletePolls = (id) => {

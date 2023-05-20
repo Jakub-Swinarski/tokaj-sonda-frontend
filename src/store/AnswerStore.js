@@ -8,6 +8,9 @@ const fetch = (pollId) => {
     return AnswerApi.get(pollId)
         .then(res => answers.value = res);
 }
+const fetchPossible =(pollId)=>{
+    return AnswerApi.getPossible(pollId);
+}
 
 const edit = (pollId, answers) => {
     return AnswerApi.edit(AuthStore.userId.value, pollId, answers);
@@ -20,7 +23,8 @@ const deleteAnswer = (id) => {
 const AnswerStore = {
     fetch,
     edit,
-    delete: deleteAnswer
+    delete: deleteAnswer,
+    fetchPossible
 }
 
 export default AnswerStore;

@@ -17,6 +17,9 @@ const edit = (id, question, type) => {
         type
     });
 }
+const allPolls = () =>{
+    return api.get('/polls/all')
+}
 const deletePolls = (id) => {
     return api.delete('/polls', {
         data: {
@@ -25,6 +28,6 @@ const deletePolls = (id) => {
     });
 }
 
-const PollApi = {add, get, edit, deletePolls}
+const PollApi = {add, get, edit, deletePolls, allPolls}
 
 export default PollApi;

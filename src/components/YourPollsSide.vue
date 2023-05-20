@@ -1,10 +1,17 @@
 <script setup>
 import SubmittedAnswerStore from "@/store/SubmittedAnswerStore";
+import PollStore from "@/store/PollStore";
+import {computed} from "vue";
 
-SubmittedAnswerStore.fetch()
+PollStore.fetch()
+const questions = computed(()=>{
+    return PollStore.polls.value.map((element)=>{
+        return element.question;
+    })
+})
 </script>
 <template>
-    <div class="poll" v-for="(value, index) of SubmittedAnswerStore.SubmittedAnswers.value" :key="index">
+    <div class="poll" v-for="(value, index) of questions" :key="index">
         <h2>{{ value }}</h2>
         <div class="buttons">
             <button class="delete btn btn-blue">Usuń</button>
