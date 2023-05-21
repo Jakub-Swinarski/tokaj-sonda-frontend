@@ -8,7 +8,6 @@ const get = (pollId) => {
     }).then(res => res.data);
 }
 const getPossible = (pollId) => {
-    console.log(pollId)
     return api.get('/answers/possible', {
         params: {
             pollId

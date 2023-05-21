@@ -7,5 +7,8 @@ const fetch = ()=>{
             SubmittedAnswers.value = res;
         });
 }
-const SubmittedAnswerStore ={fetch, SubmittedAnswers}
+const add =(answers)=>{
+    return SubmittedAnswerApi.add(answers);
+}
+const SubmittedAnswerStore ={add,fetch, SubmittedAnswers}
 export default SubmittedAnswerStore;
