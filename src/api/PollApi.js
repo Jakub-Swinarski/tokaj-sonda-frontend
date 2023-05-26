@@ -13,16 +13,17 @@ const get = () => {
 const getAll = () => {
     return api.get('/polls/polls');
 }
-const edit = (id, question, type) => {
+const edit = (id, question, strictAnswersData, newStrictAnswers) => {
     return api.put('/polls', {
         id,
         question,
-        type
+        'strict-answers-data': strictAnswersData,
+        'new-strict-answers': newStrictAnswers
     });
 }
 const deletePolls = (id) => {
     return api.delete('/polls', {
-        data: {
+        params: {
             id
         }
     });

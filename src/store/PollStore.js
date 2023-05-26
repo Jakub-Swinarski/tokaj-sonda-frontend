@@ -22,6 +22,14 @@ const fetchAll = async ()=>{
     return PollApi.getAll()
         .then(res => allPolls.value = res.data)
 }
+const edit = (id, question, strictAnswersData, newStrictAnswers)=>{
+    return PollApi.edit(
+        id,
+        question,
+        strictAnswersData,
+        newStrictAnswers
+    )
+}
 
 const deletePolls = (id) => {
     return PollApi.deletePolls(id);
@@ -31,6 +39,7 @@ const PollStore = {
     add,
     fetch,
     fetchAll,
+    edit,
     delete: deletePolls,
     polls,
     question,

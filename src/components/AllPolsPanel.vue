@@ -26,7 +26,6 @@ const isLogged = (id) => {
 };
 
 const input = (poll, answer) => {
-    console.log(newAnswerIds.value);
     if (poll.type === "MULTI_CHOOSE") {
         const answerIndex = newAnswerIds.value.findIndex(newAnswer => newAnswer === answer.id);
 
@@ -38,8 +37,6 @@ const input = (poll, answer) => {
     } else {
         newAnswerIds.value = [answer.id];
     }
-
-    console.log(newAnswerIds.value);
 }
 
 const answer = () => {

@@ -7,7 +7,6 @@ const userId = ref();
 const username = ref();
 
 watch(user, (val) => {
-    console.log(val);
     if (val !== undefined) {
         userId.value = val.id;
         username.value = val.username;

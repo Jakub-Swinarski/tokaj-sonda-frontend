@@ -1,6 +1,8 @@
 <script setup>
 import {ref} from "vue";
 import AuthStore from "@/store/AuthStore";
+import {useRouter} from "vue-router";
+const router = useRouter();
 
 const Delete = ref(0);
 const password = ref()
@@ -11,6 +13,7 @@ const DeleteUser =()=>{
         AuthStore.deleteUser(password)
             .then(()=>{
                 Delete.value=0;
+                router.push('/');
             }).catch((error) => {
                 errorMessage.value = error.response.data.message;
             });
